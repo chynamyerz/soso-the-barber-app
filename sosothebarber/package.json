@@ -1,0 +1,43 @@
+{
+  "name": "sosothebarber",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-http": "^1.5.15",
+    "axios": "^0.19.0",
+    "graphql": "^14.4.0",
+    "graphql-tag": "^2.10.1",
+    "react": "16.8.3",
+    "react-apollo": "^2.5.8",
+    "react-native": "0.59.9",
+    "react-native-app-link": "^1.0.0",
+    "react-native-config": "^0.11.7",
+    "react-native-elements": "^1.1.0",
+    "react-native-gesture-handler": "^1.3.0",
+    "react-native-image-picker": "^0.28.1",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-phone-input": "^0.2.2",
+    "react-native-simple-radio-button": "^2.7.3",
+    "react-native-super-grid": "^3.0.4",
+    "react-native-vector-icons": "^6.5.0",
+    "react-native-webview": "^5.12.0",
+    "react-navigation": "^3.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/runtime": "^7.4.5",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.54.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
