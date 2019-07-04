@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text,TouchableOpacity, Image, Modal, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, View, Text,TouchableOpacity, Modal, ScrollView, RefreshControl } from 'react-native';
 import { Icon, Card } from 'react-native-elements'
 import { FlatGrid } from 'react-native-super-grid';
 import MenuButton from '../component/MenuButton';
 import { Query } from 'react-apollo';
 import { GALLERY_QUERY } from '../graphql/Query';
 import Spinner from 'react-native-loading-spinner-overlay';
+import FastImage from 'react-native-fast-image';
+import * as Progress from 'react-native-progress';
+import { createImageProgress } from 'react-native-image-progress';
+const FImage = createImageProgress(FastImage);
 
 export default class GalleryScreen extends Component {
   constructor(props) {
@@ -36,7 +40,8 @@ export default class GalleryScreen extends Component {
           onRequestClose={() => this.ShowModalFunction(!this.state.ModalVisibleStatus, '')}
         >
           <View style={styles.modelStyle}>
-            <Image
+            <FastImage
+              resizeMode={'center'}
               style={styles.fullImageStyle}
               source={{ uri: this.state.imageuri }}
             />
@@ -115,27 +120,47 @@ export default class GalleryScreen extends Component {
                   }
                   >
                     <FlatGrid
-                      itemDimension={150}
+                      itemDimension={250}
                       items={items}
                       style={styles.container}
-                      spacing={10}
+                      spacing={3}
                       renderItem={({ item }) => (
-                        <View style={[styles.itemContainer]}>
-                          <TouchableOpacity
-                            key={item.id}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                            }}
-                            onPress={() => this.ShowModalFunction(true, item.imageUrl)}
-                          >
-                            <Image
-                              resizeMode="cover"
-                              style={{ flex: 1 }}
-                              source={{ uri: item.imageUrl }}
-                            />
-                          </TouchableOpacity>
-                        </View>
+                        <Card
+                          containerStyle={{padding:0}}
+                        >
+                          <Text style={{ textAlign: 'center', backgroundColor: 'black', color: 'white'}}>
+                            Cut by Soso-The-Barber
+                          </Text>
+                          <View style={[styles.itemContainer]}>
+                            <TouchableOpacity
+                              key={item.id}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                              }}
+                              onPress={() => this.ShowModalFunction(true, item.imageUrl)}
+                            >
+                              <FImage
+                                style={{ flex: 1 }}
+                                source={{ 
+                                  uri: item.imageUrl,
+                                }}
+                                resizeMode="cover"
+                                indicator={Progress.Circle}
+                                indicatorProps={{
+                                  size: 50,
+                                  borderWidth: 0,
+                                  color: 'rgba(60,14,101, 1)',
+                                  unfilledColor: 'rgba(60,14,101, 0.2)',
+                                }}
+                              />
+                            </TouchableOpacity>
+                          </View>
+
+                          <Text style={{ textAlign: 'left'}}>
+                            A fresh cut, a happy client...
+                          </Text>
+                        </Card>
                       )}
                     />
                   </ScrollView>
@@ -157,9 +182,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     justifyContent: 'flex-end',
-    borderRadius: 5,
-    padding: 10,
-    height: 150,
+    height: 200,
   },
   container: {
     flex: 1,
@@ -170,7 +193,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
     width: '98%',
-    resizeMode: 'contain',
   },
   modelStyle: {
     flex: 1,

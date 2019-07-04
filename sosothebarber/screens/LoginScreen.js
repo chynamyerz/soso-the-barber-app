@@ -122,7 +122,7 @@ export default class LoginScreen extends Component {
                     <Text style={ styles.text }>Tired of barber queeing?</Text>
                     <Image
                       style={{width: '100%', height: 100, resizeMode : 'contain', borderRadius: 100, marginBottom: 10 }}
-                      source={{uri :'asset:/images/soso.jpg'}}
+                      source={{uri :'asset:/images/soso.png'}}
                     />
                     <Text style={ styles.text }>You're at the right place!</Text>
                   </View>

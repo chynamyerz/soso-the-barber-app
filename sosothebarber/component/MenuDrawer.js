@@ -5,11 +5,12 @@ import {
   Text, 
   TouchableOpacity, 
   ScrollView } from 'react-native';
-import {Avatar, Button, Icon, Image} from 'react-native-elements';
+import {Avatar, Button, Icon} from 'react-native-elements';
 import Mutation from "react-apollo/Mutation";
 import {LOGOUT_USER_MUTATION} from "../graphql/Mutation";
 import {USER_QUERY} from "../graphql/Query";
 import {Query} from "react-apollo";
+import FastImage from 'react-native-fast-image';
 
 export default class MenuDrawer extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ export default class MenuDrawer extends Component {
                   return (
                     <>
                       {user && user.image ?
-                        <Image style={ styles.img } source={{ uri: user.image }} /> :
+                        <FastImage style={ styles.img } source={{ uri: user.image }} /> :
                         <Avatar
                           size={'medium'}
                           rounded
