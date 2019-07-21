@@ -140,17 +140,17 @@ const styles = StyleSheet.create({
   },
   requestReset: {
     width: '90%',
-    height: 40,
+    height: 30,
     padding: 5,
     marginTop: 2,
     marginBottom: 2,
     marginLeft: 20,
-    backgroundColor: '#50C900',
+    backgroundColor: 'hsl(141, 71%, 48%)',
     borderRadius: 25
   },
   input: {
     width: '80%',
-    height: 40,
+    height: 30,
     padding: 5,
     marginTop: 2,
     marginBottom: 2,
@@ -163,6 +163,6 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginLeft: 20,
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   }
 });

@@ -118,7 +118,7 @@ export default class LoginScreen extends Component {
               return (
                 <ScrollView contentContainerStyle={{flexGrow : 1, justifyContent : 'center'}}>
                   {errors.responseError ?  <Text style={ styles.errorMessage }>{errors.responseError}</Text> : null}
-                  <View style={{ marginBottom: 50 }}>
+                  <View style={{ marginBottom: '10%' }}>
                     <Text style={ styles.text }>Tired of barber queeing?</Text>
                     <Image
                       style={{width: '100%', height: 100, resizeMode : 'contain', borderRadius: 100, marginBottom: 10 }}
@@ -202,22 +202,22 @@ const styles = StyleSheet.create({
   },
   forgotButton: {
     width: '90%',
-    height: 44,
+    height: 30,
     padding: 10,
     marginTop: 5,
     marginBottom: 5,
     marginLeft: 20,
-    backgroundColor: 'gray',
+    backgroundColor: 'hsl(0, 0%, 71%)',
     borderRadius: 30
   },
   registerButton: {
     width: '90%',
-    height: 44,
+    height: 30,
     padding: 10,
     marginTop: 5,
     marginBottom: 5,
     marginLeft: 20,
-    backgroundColor: 'gray',
+    backgroundColor: 'hsl(0, 0%, 71%)',
     borderRadius: 30
   },
   text: {
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    height: 44,
+    height: 30,
     padding: 10,
     marginTop: 5,
     marginBottom: 5,
@@ -234,12 +234,12 @@ const styles = StyleSheet.create({
   },
   login: {
     width: '90%',
-    height: 44,
+    height: 30,
     padding: 10,
     marginTop: 5,
     marginBottom: 5,
     marginLeft: 20,
-    backgroundColor: '#558B2F',
+    backgroundColor: 'hsl(141, 71%, 48%)',
     borderRadius: 30
   },
   spinnerTextStyle: {
@@ -249,6 +249,6 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginLeft: 20,
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   }
 });

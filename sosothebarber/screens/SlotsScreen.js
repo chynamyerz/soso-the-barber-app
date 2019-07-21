@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MenuButton from '../component/MenuButton';
 import { StyleSheet, View, Text, FlatList, Alert, ScrollView, RefreshControl, Modal } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Button, CheckBox } from 'react-native-elements';
 import { Query, Mutation } from 'react-apollo';
 import { BOOKINGS_QUERY, SLOTS_QUERY, USER_QUERY, CUTS_QUERY } from '../graphql/Query';
 import { BOOK_MUTATION } from '../graphql/Mutation';
@@ -21,6 +21,13 @@ export default class SlotsScreen extends Component {
 
     this.state = {
       showModal: false,
+      selected: '',
+      call: {
+        house: false,
+        normal: false,
+        cut: null
+      },
+      student: false,
       status: '',
       dummyUpdate: null,
       dummyUpdate1: null,
@@ -53,7 +60,8 @@ export default class SlotsScreen extends Component {
         this.setState({showModal: false})
         try {
           await book({ variables: { cutId: cut.id, slotId: item.id, userId: user.id } });
-          Alert.alert('Message', 'Booked successfully. On my way to you.')
+          Alert.alert('Message', `Booked successfully.`)
+          this.props.navigation.navigate('Bookings')
         } catch (error) {
           Alert.alert('Message', 'Something went wrong')
         }
@@ -68,10 +76,27 @@ export default class SlotsScreen extends Component {
         Alert.alert('Message', 'You must be logged in to book!');
         return
     }
+    let cutPrice = 0
+    const { call, student} = this.state
+    if (call.house) {
+      if (student) {
+        cutPrice = cut.price*0.5
+      } else {
+        cutPrice = cut.price
+      }
+    }
+    if (call.normal) {
+      if (student) {
+        cutPrice = cut.price*0.3
+      } else {
+        cutPrice = cut.price*0.6
+      }
+    }
 
     this.setState({
+      ...this.state,
       showModal: true, 
-      cut, 
+      cut: {...cut, price: cutPrice}, 
       item,
       book,
       user,
@@ -79,6 +104,50 @@ export default class SlotsScreen extends Component {
       dummyUpdate1: 'dummy update1'
     })
   };
+
+  showCallOption = (key, cut) => {
+    this.setState({
+      ...this.state, 
+      selected: key,
+      student: this.state.selected !==key ? false : this.state.student,
+      call: {
+        normal: this.state.selected !==key ? false : this.state.call.normal,
+        house: this.state.selected !==key ? false : this.state.call.house,
+        cut
+      }
+    })
+  }
+
+  callOption = (option) => {
+    if (option === 'House') {
+      this.setState({
+        ...this.state,
+        call: {
+          ...this.state.call,
+          normal: false,
+          house: true,
+        }
+      })
+    }
+
+    if (option === 'Normal') {
+      this.setState({
+        ...this.state,
+        call: {
+          ...this.state.call,
+          house: false,
+          normal: true,
+        }
+      })
+    }
+  }
+
+  isStudent =() => {
+    this.setState({
+      ...this.state,
+      student: !this.state.student
+    })
+  }
 
   render() {
     const itemName = this.state.cut ? this.state.cut.title : ''
@@ -144,7 +213,6 @@ export default class SlotsScreen extends Component {
                       title="Pay Now with PayFast" 
                     />
                   </a>
-
                 </div>
               </a>
               </body>
@@ -288,9 +356,10 @@ export default class SlotsScreen extends Component {
                               {({data}) => {
                                 const cuts = data && data.cuts ? data.cuts : [];
                                 const radio_props = cuts.map(c => ({
-                                  label: `${c.title} \nR${c.price}`,
+                                  label: c.title,
                                   value: c.id
                                 }))
+                                
                                 return (
                                   <View>
                                     
@@ -298,30 +367,136 @@ export default class SlotsScreen extends Component {
                                       data={slots.map(slot => { return { ...slot, key: slot.id } })}
                                       renderItem={({ item }) => {
                                         return (
-                                            <Card title='Book this slot'>
-                                              <View>
-                                                <Text style={{marginBottom: 10}}>
-                                                  The day and time displayed, reflects that of the current and the following week.
-                                                </Text>
-                                                <Text style={{marginBottom: 10}}>
-                                                  Day: {item.day}
-                                                </Text>
-                                                <Text style={{marginBottom: 10}}>
-                                                  Time: {item.time} hrz
-                                                </Text>
-                                                <View style={styles.raiodForm}>
-                                                  <RadioForm
-                                                    buttonColor={'#50C900'}
-                                                    selectedButtonColor={'#50C900'}
-                                                    radioStyle={{ paddingRight: '10%'}}
-                                                    radio_props={radio_props}
-                                                    formHorizontal={true}
-                                                    labelHorizontal={false}
-                                                    onPress={(value) => this.canBook(cuts.filter(c => c.id === value)[0], item, book, user)}
-                                                  />
-                                                </View>
+                                          <Card title='Book this slot'>
+                                            <View>
+                                              <Text style={{marginBottom: 10}}>
+                                                The day and time displayed, reflects that of the current and the following week.
+                                              </Text>
+                                              <Text style={{marginBottom: 10}}>
+                                                Day: {item.day}
+                                              </Text>
+                                              <Text style={{marginBottom: 10}}>
+                                                Time: {item.time} hrz
+                                              </Text>
+                                              <View style={styles.raiodForm}>
+                                                <RadioForm
+                                                  buttonColor={'#50C900'}
+                                                  selectedButtonColor={'#50C900'}
+                                                  radioStyle={{ paddingRight: '10%'}}
+                                                  radio_props={radio_props}
+                                                  formHorizontal={true}
+                                                  labelHorizontal={false}
+                                                  onPress={(value) => this.showCallOption(item.id, cuts.filter(c => c.id === value)[0])}
+                                                />
+                                                {this.state.selected === item.key ? 
+                                                  <>
+                                                  {!(this.state.call.house || this.state.call.normal) ? 
+                                                    <View 
+                                                      style={{
+                                                        flex: 1,
+                                                        alignItems: 'center',
+                                                        flexDirection: 'row',
+                                                      }}
+                                                    >
+                                                      <Button
+                                                        title={ 'House call?' }
+                                                        disabled={ loading }
+                                                        onPress={ () => this.callOption('House') }
+                                                        buttonStyle={{ marginRight: 5, height: 20, backgroundColor: 'hsl(171, 100%, 41%)'}}
+                                                      />
+                                                      <Button
+                                                        title={ 'Normal call?' }
+                                                        disabled={ loading }
+                                                        onPress={ () => this.callOption('Normal') }
+                                                        buttonStyle={{height: 20, backgroundColor: 'hsl(171, 100%, 41%)'}}
+                                                      />
+                                                    </View> : null
+                                                  }
+                                                  </> : null
+                                                }
                                               </View>
-                                            </Card>
+                                              {this.state.selected === item.key && this.state.call.house ?
+                                                <View>
+                                                  <Button
+                                                    title={ 'Change to normal call.' }
+                                                    buttonStyle={{height: 20, backgroundColor: 'hsl(171, 100%, 41%)'}}
+                                                    disabled={ loading }
+                                                    onPress={ () => this.callOption('Normal') }
+                                                  />
+                                                  <CheckBox
+                                                    title='Are you a CPUT/UCT student based in Cape Town?'
+                                                    checkedIcon='dot-circle-o'
+                                                    uncheckedIcon='circle-o'
+                                                    checked={this.state.student}
+                                                    onPress={() => this.isStudent()}
+                                                    containerStyle={{ width: '90%', padding: 0, margin: 0}}
+                                                  />
+                                                  {this.state.student ? 
+                                                    <View>
+                                                      <Text>
+                                                        A student card will be required to be presented before the cutting. 
+                                                        Faillure to do so will result to the service cancellation with no refund.
+                                                      </Text>
+                                                      <Button
+                                                        title={`R${this.state.call.cut.price*0.5}`}
+                                                        buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
+                                                        disabled={ loading }
+                                                        onPress={() => this.canBook(this.state.call.cut, item, book, user)}
+                                                      />
+                                                    </View> : 
+                                                    <View>
+                                                      <Button
+                                                        title={`R${this.state.call.cut.price}`}
+                                                        buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
+                                                        disabled={ loading }
+                                                        onPress={() => this.canBook(this.state.call.cut, item, book, user)}
+                                                      />
+                                                    </View>
+                                                  }
+                                                </View> : null
+                                              }
+                                              {this.state.selected === item.key && this.state.call.normal ?
+                                                <View>
+                                                  <Button
+                                                    title={ 'Change to house call.' }
+                                                    buttonStyle={{height: 20, backgroundColor: 'hsl(171, 100%, 41%)'}}
+                                                    disabled={ loading }
+                                                    onPress={ () => this.callOption('House') }
+                                                  />
+                                                  <CheckBox
+                                                    title='Are you a CPUT/UCT student based in Cape Town?'
+                                                    checkedIcon='dot-circle-o'
+                                                    uncheckedIcon='circle-o'
+                                                    checked={this.state.student}
+                                                    onPress={() => this.isStudent()}
+                                                    containerStyle={{ width: '90%', padding: 0, margin: 0}}
+                                                  />
+                                                  {this.state.student ? 
+                                                    <View>
+                                                      <Text>
+                                                        A student card will be required to be presented before the cutting. 
+                                                        Faillure to do so will result to the service cancellation with no refund.
+                                                      </Text>
+                                                      <Button
+                                                        title={ `R${this.state.call.cut.price*0.3}` }
+                                                        buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
+                                                        disabled={ loading }
+                                                        onPress={() => this.canBook(this.state.call.cut, item, book, user)}
+                                                      />
+                                                    </View> : 
+                                                    <View>
+                                                      <Button
+                                                        title={ `R${this.state.call.cut.price*0.6}` }
+                                                        buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
+                                                        disabled={ loading }
+                                                        onPress={() => this.canBook(this.state.call.cut, item, book, user)}
+                                                      />
+                                                    </View>
+                                                  }
+                                                </View> : null
+                                              }
+                                            </View>
+                                          </Card>
                                         )
                                       }}
                                     />
@@ -376,9 +551,9 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginLeft: '30%',
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   },
   cancelMessage: {
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   }
 });

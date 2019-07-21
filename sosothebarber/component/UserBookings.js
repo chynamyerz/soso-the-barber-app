@@ -144,13 +144,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   },
   cancelButton: {
     padding: 5,
     marginTop: 2,
     marginBottom: 2,
-    backgroundColor: '#B00020'
+    backgroundColor: 'hsl(348, 100%, 61%)'
   },
   spinnerTextStyle: {
     textAlign: 'center',

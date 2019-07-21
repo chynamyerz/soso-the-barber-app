@@ -172,6 +172,7 @@ export default class AdminBookings extends Component {
                                 <Button
                                   onPress={ () => this.launchUber()}
                                   title={ 'Launch Uber' }
+                                  buttonStyle={ styles.launchUberButton }
                                 />
                                 <Mutation
                                   mutation={SEND_EMAIL_MUTATION}
@@ -241,19 +242,28 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   },
   cancelButton: {
     padding: 5,
     marginTop: 2,
     marginBottom: 2,
-    backgroundColor: '#B00020'
+    height: 30,
+    backgroundColor: 'hsl(348, 100%, 61%)'
+  },
+  launchUberButton: {
+    padding: 5,
+    marginTop: 2,
+    marginBottom: 2,
+    height: 30,
+    backgroundColor: 'hsl(204, 86%, 53%)'
   },
   reminder: {
     padding: 5,
     marginTop: 2,
     marginBottom: 2,
-    backgroundColor: '#558B2F'
+    height: 30,
+    backgroundColor: 'hsl(48, 100%, 67%)'
   },
   spinnerTextStyle: {
     textAlign: 'center',

@@ -122,7 +122,7 @@ export default class MenuDrawer extends Component {
         <View style={ styles.footer }>
           <Text style={ styles.description }>@Copyright Soso-The-Barber .inc</Text>
         
-          <Text style={ styles.version }>v1.4.0</Text>
+          <Text style={ styles.version }>v1.6.0</Text>
         </View>
       </View>
     )
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderTopWidth: 1,
-    borderBottomColor: 'lightgrey'
+    borderBottomColor: 'hsl(0, 0%, 86%)'
   },
   version: {
     flex: 1,
@@ -200,6 +200,6 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginLeft: 20,
-    color: "red",
+    color: "hsl(348, 100%, 61%)",
   }
 });

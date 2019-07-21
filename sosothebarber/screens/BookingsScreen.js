@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    color: "#B00020",
+    color: "hsl(348, 100%, 61%)",
   },
   bookingsHead: {
     fontSize: 25,
