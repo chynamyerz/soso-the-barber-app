@@ -54,7 +54,7 @@ export default class UserBookings extends Component {
         refetchQueries={() => {
           return [
             {query: USER_QUERY},
-            {query: SLOTS_QUERY}
+            {query: SLOTS_QUERY},
           ];
         }}
       >

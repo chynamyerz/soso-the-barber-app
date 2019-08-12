@@ -15,17 +15,17 @@ export default class GalleryScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageuri: '',
+      imageURI: '',
       ModalVisibleStatus: false,
     };
   }
 
-  ShowModalFunction(visible, imageURL) {
+  ShowModalFunction(visible, imageURI) {
     //handler to handle the click on image of Grid
     //and close button on modal
     this.setState({
       ModalVisibleStatus: visible,
-      imageuri: imageURL,
+      imageURI,
     });
   }
  
@@ -43,7 +43,7 @@ export default class GalleryScreen extends Component {
             <FastImage
               resizeMode={'center'}
               style={styles.fullImageStyle}
-              source={{ uri: this.state.imageuri }}
+              source={{ uri: this.state.imageURI }}
             />
             <TouchableOpacity
               style={styles.closeButtonStyle}
@@ -85,7 +85,7 @@ export default class GalleryScreen extends Component {
                   )
                 }
 
-                const items = data && data.gallery ? data.gallery : [];
+                const items = data && data.gallery;
 
                 if (!items.length) {
                   return (
@@ -138,12 +138,12 @@ export default class GalleryScreen extends Component {
                                 width: "100%",
                                 height: "100%",
                               }}
-                              onPress={() => this.ShowModalFunction(true, item.imageUrl)}
+                              onPress={() => this.ShowModalFunction(true, item.imageURI)}
                             >
                               <FImage
                                 style={{ flex: 1 }}
                                 source={{ 
-                                  uri: item.imageUrl,
+                                  uri: item.imageURI,
                                 }}
                                 resizeMode="cover"
                                 indicator={Progress.Circle}

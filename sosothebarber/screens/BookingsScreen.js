@@ -30,7 +30,7 @@ export default class BookingsScreen extends Component {
                 if (!data || error) {
                   return (
                     <Text style={ styles.errorMessage }>
-                      {error.message.replace("GraphQL error: ", "")}
+                      {error.message.replace("GraphQL error: ", "").replace("Network error: ", "")}
                     </Text>
                   )
                 }

@@ -59,7 +59,13 @@ export default class SlotsScreen extends Component {
       else if (title === 'payment completed'){
         this.setState({showModal: false})
         try {
-          await book({ variables: { cutId: cut.id, slotId: item.id, userId: user.id } });
+          await book({ 
+            variables: { 
+              cutId: cut.id, 
+              slotId: item.id, 
+              userId: user.id,
+              bookingStatusId: "1",
+            }});
           Alert.alert('Message', `Booked successfully.`)
           this.props.navigation.navigate('Bookings')
         } catch (error) {
@@ -80,16 +86,16 @@ export default class SlotsScreen extends Component {
     const { call, student} = this.state
     if (call.house) {
       if (student) {
-        cutPrice = cut.price*0.5
+        cutPrice = cut.price*0.6
       } else {
         cutPrice = cut.price
       }
     }
     if (call.normal) {
       if (student) {
-        cutPrice = cut.price*0.3
-      } else {
         cutPrice = cut.price*0.6
+      } else {
+        cutPrice = cut.price
       }
     }
 
@@ -256,7 +262,7 @@ export default class SlotsScreen extends Component {
                   return [
                     {query: USER_QUERY}, 
                     {query: SLOTS_QUERY}, 
-                    {query: BOOKINGS_QUERY}
+                    {query: BOOKINGS_QUERY},
                   ];
                 }}
               >{(book, { loading, error }) => {
@@ -381,6 +387,7 @@ export default class SlotsScreen extends Component {
                                               <View style={styles.raiodForm}>
                                                 <RadioForm
                                                   buttonColor={'#50C900'}
+                                                  initial={-1}
                                                   selectedButtonColor={'#50C900'}
                                                   radioStyle={{ paddingRight: '10%'}}
                                                   radio_props={radio_props}
@@ -423,6 +430,11 @@ export default class SlotsScreen extends Component {
                                                     disabled={ loading }
                                                     onPress={ () => this.callOption('Normal') }
                                                   />
+                                                  <Text>
+                                                    House call means, I come to you to provide hair cut service at your
+                                                    convenient place. You are responsible for the bus fare (preferable Uber) 
+                                                    to and from your place around Cape Town.
+                                                  </Text>
                                                   <CheckBox
                                                     title='Are you a CPUT/UCT student based in Cape Town?'
                                                     checkedIcon='dot-circle-o'
@@ -438,7 +450,7 @@ export default class SlotsScreen extends Component {
                                                         Faillure to do so will result to the service cancellation with no refund.
                                                       </Text>
                                                       <Button
-                                                        title={`R${this.state.call.cut.price*0.5}`}
+                                                        title={`R${this.state.call.cut.price*0.6}`}
                                                         buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
                                                         disabled={ loading }
                                                         onPress={() => this.canBook(this.state.call.cut, item, book, user)}
@@ -478,7 +490,7 @@ export default class SlotsScreen extends Component {
                                                         Faillure to do so will result to the service cancellation with no refund.
                                                       </Text>
                                                       <Button
-                                                        title={ `R${this.state.call.cut.price*0.3}` }
+                                                        title={ `R${this.state.call.cut.price*0.6}` }
                                                         buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
                                                         disabled={ loading }
                                                         onPress={() => this.canBook(this.state.call.cut, item, book, user)}
@@ -486,7 +498,7 @@ export default class SlotsScreen extends Component {
                                                     </View> : 
                                                     <View>
                                                       <Button
-                                                        title={ `R${this.state.call.cut.price*0.6}` }
+                                                        title={ `R${this.state.call.cut.price}` }
                                                         buttonStyle={{height: 20, backgroundColor: 'hsl(141, 71%, 48%)'}}
                                                         disabled={ loading }
                                                         onPress={() => this.canBook(this.state.call.cut, item, book, user)}

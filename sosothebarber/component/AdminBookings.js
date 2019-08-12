@@ -103,7 +103,7 @@ export default class AdminBookings extends Component {
               refetchQueries={() => {
                 return [
                   {query: BOOKINGS_QUERY},
-                  {query: SLOTS_QUERY}
+                  {query: SLOTS_QUERY},
                 ];
               }}
             >
