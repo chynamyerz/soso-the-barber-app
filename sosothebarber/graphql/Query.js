@@ -8,7 +8,7 @@ const USER_QUERY = gql`
     user {
       id
       email
-      imageURL
+      image
       name
       role
       streetAddress
@@ -20,7 +20,7 @@ const USER_QUERY = gql`
           title
           price
           description
-          imageURL
+          image
         }
         slot {
           id
@@ -41,7 +41,7 @@ const USERS_QUERY = gql`
     users {
       id
       email
-      imageURL
+      image
       name
       role
       streetAddress
@@ -53,7 +53,7 @@ const USERS_QUERY = gql`
           title
           price
           description
-          imageURL
+          image
         }
         slot {
           id
@@ -79,7 +79,7 @@ const BOOKINGS_QUERY = gql`
         title
         price
         description
-        imageURL
+        image
       }
       slot {
         id
@@ -131,7 +131,7 @@ const GALLERY_QUERY = gql`
   query GALLERY_QUERY {
     gallery {
       id
-      imageURI
+      imageUrl
     }
   }
 `;

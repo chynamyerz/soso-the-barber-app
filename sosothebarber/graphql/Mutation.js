@@ -21,7 +21,7 @@ const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
     $cell: String!
     $email: String!
-    $imageURL: String
+    $image: String
     $name: String!
     $password: String!
     $streetAddress: String
@@ -29,7 +29,7 @@ const SIGNUP_MUTATION = gql`
     signup(
       cell: $cell
       email: $email
-      imageURL: $imageURL
+      image: $image
       name: $name
       password: $password
       streetAddress: $streetAddress
@@ -62,7 +62,7 @@ const USER_UPDATE_MUTATION = gql`
   mutation USER_UPDATE_MUTATION(
     $cell: String
     $email: String
-    $imageURL: String
+    $image: String
     $name: String
     $newPassword: String
     $password: String!
@@ -71,7 +71,7 @@ const USER_UPDATE_MUTATION = gql`
     updateUser(
       cell: $cell
       email: $email
-      imageURL: $imageURL
+      image: $image
       name: $name
       newPassword: $newPassword
       password: $password
@@ -98,13 +98,11 @@ const BOOK_MUTATION = gql`
     $cutId: ID!
     $slotId: ID!
     $userId: ID!
-    $bookingStatusId: ID!
   ){
     book(
       cutId: $cutId
       slotId: $slotId
       userId: $userId
-      bookingStatusId: $bookingStatusId
     ){
       message
     }

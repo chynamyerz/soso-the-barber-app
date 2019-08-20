@@ -64,7 +64,6 @@ export default class SlotsScreen extends Component {
               cutId: cut.id, 
               slotId: item.id, 
               userId: user.id,
-              bookingStatusId: "1",
             }});
           Alert.alert('Message', `Booked successfully.`)
           this.props.navigation.navigate('Bookings')

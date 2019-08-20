@@ -3,9 +3,9 @@ import { StyleSheet, View, ScrollView, Image } from 'react-native';
 import {Button, Input, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MenuButton from '../component/MenuButton';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { GET_USER_MUTATION } from '../graphql/Mutation';
-import { USER_QUERY } from '../graphql/Query';
+import { USER_QUERY, SLOTS_QUERY, GALLERY_QUERY } from '../graphql/Query';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class LoginScreen extends Component {
@@ -94,100 +94,106 @@ export default class LoginScreen extends Component {
       <View style={ styles.container }>
         <MenuButton navigation={this.props.navigation} />
         <View style={ styles.container }>
-          <Mutation
-            mutation={GET_USER_MUTATION}
-            refetchQueries={() => {
-              return [{
-                 query: USER_QUERY
-             }];
-            }}
+          <Query
+            query={ GALLERY_QUERY }
           >
-            {(getUser,{loading}) => {
-              const { errors } = this.state;
-
-              if (loading) {
-                return (
-                  <Spinner
-                    visible={loading}
-                    textContent={"We are obtaining your data."}
-                    textStyle={styles.spinnerTextStyle}
-                  />
-                )
-              }
-
-              return (
-                <ScrollView contentContainerStyle={{flexGrow : 1, justifyContent : 'center'}}>
-                  {errors.responseError ?  <Text style={ styles.errorMessage }>{errors.responseError}</Text> : null}
-                  <View style={{ marginBottom: '10%' }}>
-                    <Text style={ styles.text }>Tired of barber queeing?</Text>
-                    <Image
-                      style={{width: '100%', height: 100, resizeMode : 'contain', borderRadius: 100, marginBottom: 10 }}
-                      source={{uri :'asset:/images/soso.png'}}
-                    />
-                    <Text style={ styles.text }>You're at the right place!</Text>
-                  </View>
-                  <Input
-                    value={this.state.username}
-                    disabled={ loading }
-                    onChangeText={(email) => { email = email.trim().toLowerCase(); return this.setState({ email })}}
-                    placeholder={'Email address'}
-                    inputStyle={styles.input}
-                    leftIcon={
-                      <Icon
-                        name={ 'envelope' }
-                        size={ 20 }
-                        color={ '#263238' }
+            {() => (
+              <Mutation
+                mutation={GET_USER_MUTATION}
+                refetchQueries={() => {
+                  return [{
+                    query: USER_QUERY
+                }];
+                }}
+              >
+                {(getUser,{loading}) => {
+                  const { errors } = this.state;
+    
+                  if (loading) {
+                    return (
+                      <Spinner
+                        visible={loading}
+                        textContent={"We are obtaining your data."}
+                        textStyle={styles.spinnerTextStyle}
                       />
-                    }
-                  />
-                  {errors.errorEmail ? <Text style={ styles.errorMessage }>{errors.errorEmail}</Text> : null}
-                  <Input
-                    value={this.state.password}
-                    disabled={ loading }
-                    onChangeText={(password) => this.setState({ password })}
-                    placeholder={'Password'}
-                    secureTextEntry={!this.state.showPassword}
-                    inputStyle={styles.input}
-                    leftIcon={
-                      <Icon
-                        name={ 'lock' }
-                        size={30}
-                        color={ '#263238' }
+                    )
+                  }
+    
+                  return (
+                    <ScrollView contentContainerStyle={{flexGrow : 1, justifyContent : 'center'}}>
+                      {errors.responseError ?  <Text style={ styles.errorMessage }>{errors.responseError}</Text> : null}
+                      <View style={{ marginBottom: '10%' }}>
+                        <Text style={ styles.text }>Tired of barber queeing?</Text>
+                        <Image
+                          style={{width: '100%', height: 100, resizeMode : 'contain', borderRadius: 100, marginBottom: 10 }}
+                          source={{uri :'asset:/images/soso.png'}}
+                        />
+                        <Text style={ styles.text }>You're at the right place!</Text>
+                      </View>
+                      <Input
+                        value={this.state.username}
+                        disabled={ loading }
+                        onChangeText={(email) => { email = email.trim().toLowerCase(); return this.setState({ email })}}
+                        placeholder={'Email address'}
+                        inputStyle={styles.input}
+                        leftIcon={
+                          <Icon
+                            name={ 'envelope' }
+                            size={ 20 }
+                            color={ '#263238' }
+                          />
+                        }
                       />
-                    }
-                    rightIcon={
-                      <Icon
-                        name={ 'eye' }
-                        size={ 30 }
-                        color={ '#263238' }
-                        onPress={ (showPassword) => this.setState({ showPassword: !this.state.showPassword }) }
+                      {errors.errorEmail ? <Text style={ styles.errorMessage }>{errors.errorEmail}</Text> : null}
+                      <Input
+                        value={this.state.password}
+                        disabled={ loading }
+                        onChangeText={(password) => this.setState({ password })}
+                        placeholder={'Password'}
+                        secureTextEntry={!this.state.showPassword}
+                        inputStyle={styles.input}
+                        leftIcon={
+                          <Icon
+                            name={ 'lock' }
+                            size={30}
+                            color={ '#263238' }
+                          />
+                        }
+                        rightIcon={
+                          <Icon
+                            name={ 'eye' }
+                            size={ 30 }
+                            color={ '#263238' }
+                            onPress={ (showPassword) => this.setState({ showPassword: !this.state.showPassword }) }
+                          />
+                        }
                       />
-                    }
-                  />
-                  {errors.errorPassword ? <Text style={ styles.errorMessage }>{errors.errorPassword}</Text> : null}
-                  <Button
-                    title={ loading ? 'Loging in...' : 'Login' }
-                    disabled={ loading }
-                    onPress={ () => this.onLogin(getUser) }
-                    buttonStyle={ styles.login }
-                  />
-
-                  <Button
-                    title={ 'Forgot password?' }
-                    disabled={ loading }
-                    onPress={ () => this.props.navigation.navigate('RequestReset') }
-                    buttonStyle={ styles.forgotButton }
-                  />
-                  <Button
-                    title={ 'Register here!' }
-                    disabled={ loading }
-                    onPress={ () => this.props.navigation.navigate('Register') }
-                    buttonStyle={ styles.registerButton }
-                  />
-                </ScrollView>
-              )
-            }}
-          </Mutation>
+                      {errors.errorPassword ? <Text style={ styles.errorMessage }>{errors.errorPassword}</Text> : null}
+                      <Button
+                        title={ loading ? 'Loging in...' : 'Login' }
+                        disabled={ loading }
+                        onPress={ () => this.onLogin(getUser) }
+                        buttonStyle={ styles.login }
+                      />
+    
+                      <Button
+                        title={ 'Forgot password?' }
+                        disabled={ loading }
+                        onPress={ () => this.props.navigation.navigate('RequestReset') }
+                        buttonStyle={ styles.forgotButton }
+                      />
+                      <Button
+                        title={ 'Register here!' }
+                        disabled={ loading }
+                        onPress={ () => this.props.navigation.navigate('Register') }
+                        buttonStyle={ styles.registerButton }
+                      />
+                    </ScrollView>
+                  )
+                }}
+              </Mutation>
+            )}
+          </Query>
         </View>
       </View>
     );

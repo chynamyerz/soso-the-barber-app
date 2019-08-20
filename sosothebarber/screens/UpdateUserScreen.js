@@ -21,7 +21,7 @@ export default class UpdateUserScreen extends Component {
         errorCell: '',
         errorConfirmNewPassword: '',
         errorEmail: '',
-        errorImageURL: '',
+        errorImage: '',
         errorName: '',
         errorNewPassword: '',
         errorPassword: '',
@@ -29,7 +29,7 @@ export default class UpdateUserScreen extends Component {
       cell: '',
       confirmNewPassword: '',
       email: '',
-      imageURL: '',
+      image: '',
       name: '',
       newPassword: '',
       password: '',
@@ -80,7 +80,7 @@ export default class UpdateUserScreen extends Component {
         const file = await res.json();
 
         this.setState({
-          imageURL: file.secure_url,
+          image: file.secure_url,
           profileImageSaveLoading: false
         })
       }
@@ -129,7 +129,7 @@ export default class UpdateUserScreen extends Component {
           variables: {
             cell: this.state.cell,
             email: this.state.email.trim(),
-            imageURL: this.state.imageURL,
+            image: this.state.image,
             name: this.state.name,
             newPassword: this.state.newPassword,
             password: this.state.password,
@@ -145,7 +145,7 @@ export default class UpdateUserScreen extends Component {
           errorCell: '',
           errorConfirmNewPassword: '',
           errorEmail: '',
-          errorImageURL: '',
+          errorImage: '',
           errorName: '',
           errorNewPassword: '',
           errorPassword: '',
@@ -153,7 +153,7 @@ export default class UpdateUserScreen extends Component {
         cell: '',
         confirmNewPassword: '',
         email: '',
-        imageURL: '',
+        image: '',
         name: '',
         newPassword:'',
         password: '',
@@ -327,9 +327,9 @@ export default class UpdateUserScreen extends Component {
                     }
                   />
                   {errors.errorConfirmNewPassword ? <Text style={ styles.errorMessage }>{errors.errorConfirmNewPassword}</Text> : null}
-                  {this.state.imageURL ?
+                  {this.state.image ?
                     <Image
-                      source={{ uri: this.state.imageURL }}
+                      source={{ uri: this.state.image }}
                       style={styles.img}
                     /> : !this.state.profileImageSaveLoading ?
                     <Avatar
@@ -340,7 +340,7 @@ export default class UpdateUserScreen extends Component {
                       onPress={ this.handleChoosePhoto }
                     /> : <Text style={{ textAlign: 'center' }}>Please wait while we set your profile picture...</Text>
                   }
-                  {errors.errorImageURL ? <Text style={ styles.errorMessage }>{errors.errorImageURL}</Text> : null}
+                  {errors.errorImage ? <Text style={ styles.errorMessage }>{errors.errorImage}</Text> : null}
                   <Button
                     buttonStyle={ styles.updateUser }
                     onPress={() => this.handleUpdateUser(updateUser) }

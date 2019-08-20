@@ -19,14 +19,14 @@ export default class RegisterScreen extends Component {
         errorCell: '',
         errorConfirmPassword: '',
         errorEmail: '',
-        errorImageURL: '',
+        errorImage: '',
         errorName: '',
         errorPassword: '',
       },
       cell: '',
       confirmPassword: '',
       email: '',
-      imageURL: '',
+      image: '',
       name: '',
       password: '',
       streetAddress: '',
@@ -76,7 +76,7 @@ export default class RegisterScreen extends Component {
         const file = await res.json();
         
         this.setState({
-          imageURL: file.secure_url,
+          image: file.secure_url,
           profileImageSaveLoading: false
         })
       }
@@ -141,7 +141,7 @@ export default class RegisterScreen extends Component {
           variables: {
             cell: this.state.cell,
             email: this.state.email.trim(),
-            imageURL: this.state.imageURL,
+            image: this.state.image,
             name: this.state.name,
             password: this.state.password,
             streetAddress: this.state.streetAddress
@@ -156,14 +156,14 @@ export default class RegisterScreen extends Component {
           errorCell: '',
           errorConfirmPassword: '',
           errorEmail: '',
-          errorImageURL: '',
+          errorImage: '',
           errorName: '',
           errorPassword: '',
         },
         cell: '',
         confirmPassword: '',
         email: '',
-        imageURL: '',
+        image: '',
         name: '',
         password: '',
         streetAddress: ''
@@ -307,9 +307,9 @@ export default class RegisterScreen extends Component {
                     }
                   />
                   {errors.errorConfirmPassword ? <Text style={ styles.errorMessage }>{errors.errorConfirmPassword}</Text> : null}
-                  {this.state.imageURL ?
+                  {this.state.image ?
                     <Image
-                      source={{ uri: this.state.imageURL }}
+                      source={{ uri: this.state.image }}
                       style={styles.img}
                     /> : !this.state.profileImageSaveLoading ?
                     <Avatar
@@ -320,7 +320,7 @@ export default class RegisterScreen extends Component {
                       onPress={ this.handleChoosePhoto }
                     /> : <Text style={{ textAlign: 'center' }}>Please wait while we set your profile picture...</Text>
                   }
-                  {errors.errorImage ? <Text style={ styles.errorMessage }>{errors.errorImageURL}</Text> : null}
+                  {errors.errorImage ? <Text style={ styles.errorMessage }>{errors.errorImage}</Text> : null}
                   <Button
                     buttonStyle={ styles.register }
                     onPress={() => this.handleSignup(signup) }

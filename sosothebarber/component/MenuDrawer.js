@@ -57,8 +57,8 @@ export default class MenuDrawer extends Component {
                   const user = data && data.user ? data.user : null
                   return (
                     <>
-                      {user && user.imageURL ?
-                        <FastImage style={ styles.img } source={{ uri: user.imageURL }} /> :
+                      {user && user.image ?
+                        <FastImage style={ styles.img } source={{ uri: user.image }} /> :
                         <Avatar
                           size={'medium'}
                           rounded
